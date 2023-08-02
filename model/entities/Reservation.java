@@ -12,7 +12,7 @@ public class Reservation {
     private Date checkout;
 
     private static SimpleDateFormat sdf1 = new SimpleDateFormat("dd/MM/yyyy");
-    
+
     // Constructors
     public Reservation(){}
 
@@ -43,9 +43,23 @@ public class Reservation {
         return TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
     }
 
-    public void updateDates(Date checkin, Date checkout){
+    public String updateDates(Date checkin, Date checkout){
+
+        // Validação da data de att, onde as novas datas não podem ser menores que as já cadastradas anteriormente
+        // Date now = new Date();
+        if(checkin.before(this.checkin) || checkout.before(this.checkout)){
+            return "Error in reservation: Reservation dates for update must be future dates";
+        } 
+        if(!checkout.after(checkin)){
+            return "Error in reservation: Check-out date must be after check-in date";
+        }
+
+        // Atualização
         this.checkin = checkin;
         this.checkout = checkout;
+
+        // Se retornar null é pq n deu nenhum erro
+        return null;
     }
 
     

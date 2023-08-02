@@ -18,37 +18,33 @@ public class Program {
         Integer roomNumber = ler.nextInt();
 
         System.out.print("Check-in Date (dd/MM/yyy): ");
-        Date dateCheckin = sdf.parse(ler.next());
+        Date checkin = sdf.parse(ler.next());
 
         System.out.print("Check-out Date (dd/MM/yyy): ");
-        Date dateCheckout = sdf.parse(ler.next());
+        Date checkout = sdf.parse(ler.next());
 
-        if(!dateCheckout.after(dateCheckin)){
+        if(!checkout.after(checkin)){
             System.out.println("Error in reservation: Check-out date must be after check-in date");
         } else {
-            Reservation reservation = new Reservation(roomNumber, dateCheckin, dateCheckout);
+            Reservation reservation = new Reservation(roomNumber, checkin, checkout);
             System.out.println(reservation);
 
             System.out.println();
             System.out.println("Enter data to update the reservation:");
 
             System.out.print("Check-in Date (dd/MM/yyy): ");
-            dateCheckin = sdf.parse(ler.next());
+            checkin = sdf.parse(ler.next());
 
             System.out.print("Check-out Date (dd/MM/yyy): ");
-            dateCheckout = sdf.parse(ler.next());
+            checkout = sdf.parse(ler.next());
 
-            // Validação da data de att, onde as novas datas não podem ser menores que as já cadastradas anteriormente
-            Date now = new Date();
-            if(dateCheckin.before(now) || dateCheckout.before(now)){
-                System.out.println("Reservation dates for update must be future dates");
-
-            } else if(!dateCheckout.after(dateCheckout)){
-                System.out.println("Error in reservation: Check-out date must be after check-in date");
+            // Att
+            String error = reservation.updateDates(checkin, checkout);
+            
+            if(error != null){
+                System.out.println("Error in reservation: "+error);
             } else {
-                // Att
-                reservation.updateDates(dateCheckin, dateCheckout);
-                System.out.println(reservation);
+                System.out.println("\n---- Reservation ----"+reservation);
             }
             
         }
